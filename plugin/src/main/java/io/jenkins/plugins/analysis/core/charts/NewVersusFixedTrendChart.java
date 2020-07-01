@@ -7,9 +7,9 @@ import edu.hm.hafner.echarts.LineSeries.FilledMode;
 import edu.hm.hafner.echarts.LineSeries.StackedMode;
 import edu.hm.hafner.echarts.LinesChartModel;
 import edu.hm.hafner.echarts.LinesDataSet;
-import edu.hm.hafner.echarts.Palette;
 
 import io.jenkins.plugins.analysis.core.util.AnalysisBuildResult;
+import io.jenkins.plugins.echarts.JenkinsPalette;
 
 /**
  * Builds the model for a trend chart showing all new and fixed issues for a given number of builds.
@@ -26,9 +26,9 @@ public class NewVersusFixedTrendChart implements TrendChart {
         LinesChartModel model = new LinesChartModel();
         model.setDomainAxisLabels(dataSet.getDomainAxisLabels());
 
-        LineSeries newSeries = getSeries(dataSet, Messages.New_Warnings_Short(), Palette.RED,
+        LineSeries newSeries = getSeries(dataSet, Messages.New_Warnings_Short(), JenkinsPalette.DATA_ORANGE_LIGHT,
                 NewVersusFixedSeriesBuilder.NEW);
-        LineSeries fixedSeries = getSeries(dataSet, Messages.Fixed_Warnings_Short(), Palette.GREEN,
+        LineSeries fixedSeries = getSeries(dataSet, Messages.Fixed_Warnings_Short(), JenkinsPalette.DATA_GREEN_LIGHT,
                 NewVersusFixedSeriesBuilder.FIXED);
 
         model.addSeries(newSeries, fixedSeries);
@@ -37,8 +37,8 @@ public class NewVersusFixedTrendChart implements TrendChart {
     }
 
     private LineSeries getSeries(final LinesDataSet dataSet,
-            final String name, final Palette color, final String dataSetId) {
-        LineSeries newSeries = new LineSeries(name, color.getNormal(), StackedMode.SEPARATE_LINES, FilledMode.FILLED);
+            final String name, final JenkinsPalette color, final String dataSetId) {
+        LineSeries newSeries = new LineSeries(name, color.getColor(), StackedMode.SEPARATE_LINES, FilledMode.FILLED);
         newSeries.addAll(dataSet.getSeries(dataSetId));
         return newSeries;
     }
